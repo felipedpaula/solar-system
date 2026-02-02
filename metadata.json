@@ -1,0 +1,5 @@
+{
+  "name": "Exploração Espacial: Sistema Solar 3D",
+  "description": "Uma visualização interativa e educacional do Sistema Solar usando React Three Fiber e WebGL. Explore planetas, aprenda fatos curiosos e viaje pelo espaço.",
+  "requestFramePermissions": []
+}
