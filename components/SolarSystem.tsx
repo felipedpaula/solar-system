@@ -4,9 +4,10 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 
-import { BodyType, CelestialInfo } from '../types';
+import { BodyType, CelestialInfo, MoonData } from '../types';
 import { PLANET_DATA } from '../constants';
 import StarField from './StarField';
+import MilkyWay from './MilkyWay';
 import Sun from './Sun';
 import Planet from './Planet';
 import OrbitPath from './OrbitPath';
@@ -36,55 +37,55 @@ const CameraController: React.FC<{
       gsap.killTweensOf(controlsRef.current.target);
     }
     if (selectedBody && targetPosition) {
-        // Focus on Planet
-        const offset = selectedBody.radius * 4; // Distance to keep from body
-        
-        // Calculate a nice viewing angle
-        // We simply add offset to x and z to look from an angle
-        const camX = targetPosition.x + offset;
-        const camY = targetPosition.y + offset * 0.5;
-        const camZ = targetPosition.z + offset;
+      // Focus on Planet
+      const offset = selectedBody.radius * 4; // Distance to keep from body
 
-        // Animate Camera Position
-        gsap.to(camera.position, {
-            x: camX,
-            y: camY,
-            z: camZ,
-            duration: 2,
-            ease: 'power3.inOut'
+      // Calculate a nice viewing angle
+      // We simply add offset to x and z to look from an angle
+      const camX = targetPosition.x + offset;
+      const camY = targetPosition.y + offset * 0.5;
+      const camZ = targetPosition.z + offset;
+
+      // Animate Camera Position
+      gsap.to(camera.position, {
+        x: camX,
+        y: camY,
+        z: camZ,
+        duration: 2,
+        ease: 'power3.inOut'
+      });
+
+      // Animate Controls Target (Where camera looks)
+      if (controlsRef.current) {
+        gsap.to(controlsRef.current.target, {
+          x: targetPosition.x,
+          y: targetPosition.y,
+          z: targetPosition.z,
+          duration: 2,
+          ease: 'power3.inOut',
+          onUpdate: () => controlsRef.current.update()
         });
-
-        // Animate Controls Target (Where camera looks)
-        if (controlsRef.current) {
-            gsap.to(controlsRef.current.target, {
-                x: targetPosition.x,
-                y: targetPosition.y,
-                z: targetPosition.z,
-                duration: 2,
-                ease: 'power3.inOut',
-                onUpdate: () => controlsRef.current.update()
-            });
-        }
+      }
     } else if (!selectedBody) {
-        // Reset to Overview
-        gsap.to(camera.position, {
-            x: 0,
-            y: 300,
-            z: 450,
-            duration: 2.5,
-            ease: 'power3.inOut'
-        });
+      // Reset to Overview
+      gsap.to(camera.position, {
+        x: 0,
+        y: 300,
+        z: 450,
+        duration: 2.5,
+        ease: 'power3.inOut'
+      });
 
-        if (controlsRef.current) {
-            gsap.to(controlsRef.current.target, {
-                x: 0,
-                y: 0,
-                z: 0,
-                duration: 2.5,
-                ease: 'power3.inOut',
-                onUpdate: () => controlsRef.current.update()
-            });
-        }
+      if (controlsRef.current) {
+        gsap.to(controlsRef.current.target, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 2.5,
+          ease: 'power3.inOut',
+          onUpdate: () => controlsRef.current.update()
+        });
+      }
     }
   }, [selectedBody, targetPosition, camera]);
 
@@ -111,10 +112,25 @@ const TimeSync: React.FC<{
       if (!paused) {
         const baseAngle = orbitAngles.current[planet.id] ?? 0;
         const currentAngle = baseAngle + t * planet.speed * 0.1;
+
+        let y = 0;
+        let z = Math.sin(currentAngle) * planet.distance;
+
+        if (planet.orbitalInclination) {
+          const inclinationRad = THREE.MathUtils.degToRad(planet.orbitalInclination);
+          y = Math.sin(currentAngle) * planet.distance * Math.sin(inclinationRad);
+          // Adjust Z slightly to keep distance correct on the plane, though simplification Z = R * sin(theta) is usually fine for small angles
+          // but for correctness in 3D:
+          // x = r * cos(theta)
+          // y = r * sin(theta) * sin(inc)
+          // z = r * sin(theta) * cos(inc)
+          z = Math.sin(currentAngle) * planet.distance * Math.cos(inclinationRad);
+        }
+
         planetPos = new THREE.Vector3(
           Math.cos(currentAngle) * planet.distance,
-          0,
-          Math.sin(currentAngle) * planet.distance
+          y,
+          z
         );
         nextPositions[planet.id] = planetPos;
       } else if (frozenPositions && frozenPositions[planet.id]) {
@@ -224,20 +240,30 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ selectedBody, menuSelection, 
     }
 
     if (selectedBody.type === BodyType.MOON) {
-      const baseAngle = orbitAngles.current[selectedBody.id] ?? 0;
-      const currentAngle = baseAngle + timeRef.current * selectedBody.speed * 0.1;
-      const parentPos = planetPositionsRef.current[selectedBody.parentId];
-      const x = (parentPos ? parentPos.x : 0) + Math.cos(currentAngle) * selectedBody.distance;
-      const z = (parentPos ? parentPos.z : 0) + Math.sin(currentAngle) * selectedBody.distance;
+      const moon = selectedBody as MoonData;
+      const baseAngle = orbitAngles.current[moon.id] ?? 0;
+      const currentAngle = baseAngle + timeRef.current * moon.speed * 0.1;
+      const parentPos = planetPositionsRef.current[moon.parentId];
+      const x = (parentPos ? parentPos.x : 0) + Math.cos(currentAngle) * moon.distance;
+      const z = (parentPos ? parentPos.z : 0) + Math.sin(currentAngle) * moon.distance;
       setTargetPos(new THREE.Vector3(x, 0, z));
       return;
     }
 
     const baseAngle = orbitAngles.current[selectedBody.id] ?? 0;
     const currentAngle = baseAngle + timeRef.current * selectedBody.speed * 0.1;
+
+    let y = 0;
+    let z = Math.sin(currentAngle) * selectedBody.distance;
+
+    if ('orbitalInclination' in selectedBody && selectedBody.orbitalInclination) {
+      const inclinationRad = THREE.MathUtils.degToRad(selectedBody.orbitalInclination);
+      y = Math.sin(currentAngle) * selectedBody.distance * Math.sin(inclinationRad);
+      z = Math.sin(currentAngle) * selectedBody.distance * Math.cos(inclinationRad);
+    }
+
     const x = Math.cos(currentAngle) * selectedBody.distance;
-    const z = Math.sin(currentAngle) * selectedBody.distance;
-    setTargetPos(new THREE.Vector3(x, 0, z));
+    setTargetPos(new THREE.Vector3(x, y, z));
   }, [selectedBody]);
 
   React.useEffect(() => {
@@ -250,7 +276,8 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ selectedBody, menuSelection, 
     }
 
     if (selectedBody.type === BodyType.MOON) {
-      const moonMesh = moonMeshRefs.current[selectedBody.id];
+      const moon = selectedBody as MoonData;
+      const moonMesh = moonMeshRefs.current[moon.id];
       if (moonMesh) {
         const worldPos = new THREE.Vector3();
         moonMesh.getWorldPosition(worldPos);
@@ -259,11 +286,11 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ selectedBody, menuSelection, 
         onMenuSelectionHandled();
         return;
       }
-      const baseAngle = orbitAngles.current[selectedBody.id] ?? 0;
-      const currentAngle = baseAngle + timeRef.current * selectedBody.speed * 0.1;
-      const parentPos = planetPositionsRef.current[selectedBody.parentId];
-      const x = (parentPos ? parentPos.x : 0) + Math.cos(currentAngle) * selectedBody.distance;
-      const z = (parentPos ? parentPos.z : 0) + Math.sin(currentAngle) * selectedBody.distance;
+      const baseAngle = orbitAngles.current[moon.id] ?? 0;
+      const currentAngle = baseAngle + timeRef.current * moon.speed * 0.1;
+      const parentPos = planetPositionsRef.current[moon.parentId];
+      const x = (parentPos ? parentPos.x : 0) + Math.cos(currentAngle) * moon.distance;
+      const z = (parentPos ? parentPos.z : 0) + Math.sin(currentAngle) * moon.distance;
       setTargetPos(new THREE.Vector3(x, 0, z));
       lastSelectionFromClick.current = true;
       onMenuSelectionHandled();
@@ -296,8 +323,8 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ selectedBody, menuSelection, 
   return (
     <Canvas shadows dpr={[1, 2]}>
       <Suspense fallback={null}>
-        <TimeSync 
-          onTick={(t) => { timeRef.current = t; }} 
+        <TimeSync
+          onTick={(t) => { timeRef.current = t; }}
           orbitAngles={orbitAngles}
           onPositionsUpdate={(positions) => { planetPositionsRef.current = positions; }}
           onMoonPositionsUpdate={(positions) => { moonPositionsRef.current = positions; }}
@@ -311,67 +338,72 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ selectedBody, menuSelection, 
         <fogExp2 attach="fog" args={['#050714', 0.0006]} />
 
         <PerspectiveCamera makeDefault position={[0, 300, 450]} fov={45} />
-        <CameraController 
-          selectedBody={selectedBody} 
-          targetPosition={targetPos} 
+        <CameraController
+          selectedBody={selectedBody}
+          targetPosition={targetPos}
           moonPositionsRef={moonPositionsRef}
         />
-        
+
         {/* Lighting */}
-        <ambientLight intensity={0.7} /> 
-        
-        {/* Background Atmosphere (Stars only) */}
+        <ambientLight intensity={0.7} />
+
+        {/* Background Atmosphere */}
+        <MilkyWay />
         <StarField />
 
         {/* Sun */}
-        <Sun 
-            data={PLANET_DATA[0]} 
-            onClick={(d) => handlePlanetClick(d, new THREE.Vector3(0,0,0))} 
+        <Sun
+          data={PLANET_DATA[0]}
+          onClick={(d) => handlePlanetClick(d, new THREE.Vector3(0, 0, 0))}
         />
 
         {/* Zones */}
         {showOverlays && (
           <>
             {/* Hot Zone (Red) - Mercury (10) & Venus (15) */}
-            <SystemZone 
-                innerRadius={12} 
-                outerRadius={60} 
-                color="#ef4444" 
-                opacity={0.08}
+            <SystemZone
+              innerRadius={12}
+              outerRadius={60}
+              color="#ef4444"
+              opacity={0.08}
             />
 
             {/* Habitable Zone (Green) - Earth (22) & Mars (30) */}
-            <SystemZone 
-                innerRadius={61} 
-                outerRadius={120} 
-                color="#4ade80" 
-                opacity={0.08}
+            <SystemZone
+              innerRadius={61}
+              outerRadius={120}
+              color="#4ade80"
+              opacity={0.08}
             />
 
             {/* Cold/Outer Zone (Blue) - Jupiter (45) to Neptune (90) */}
-            <SystemZone 
-                innerRadius={121} 
-                outerRadius={380} 
-                color="#3b82f6" 
-                opacity={0.08}
+            <SystemZone
+              innerRadius={121}
+              outerRadius={380}
+              color="#3b82f6"
+              opacity={0.08}
             />
           </>
         )}
 
         {/* Planets */}
         {PLANET_DATA.slice(1).map((planet) => (
-            <group key={planet.id}>
-            {showOverlays && <OrbitPath radius={planet.distance} />}
-            <Planet 
-                data={planet} 
-                initialAngle={orbitAngles.current[planet.id]}
-                frozenPosition={frozenPositions ? frozenPositions[planet.id] : undefined}
-                isPaused={selectedBody !== null} // Pause orbit when investigating a planet
-                selectedBodyId={selectedBody ? selectedBody.id : undefined}
-                onRegisterMoonMesh={(id, obj) => { moonMeshRefs.current[id] = obj; }}
-                onClick={handlePlanetClick} 
-                />
-            </group>
+          <group key={planet.id}>
+            {showOverlays && (
+              <group rotation={[-THREE.MathUtils.degToRad(planet.orbitalInclination || 0), 0, 0]}>
+                <OrbitPath radius={planet.distance} />
+              </group>
+            )}
+            <Planet
+              data={planet}
+              initialAngle={orbitAngles.current[planet.id]}
+              frozenPosition={frozenPositions ? frozenPositions[planet.id] : undefined}
+              isPaused={selectedBody !== null} // Pause orbit when investigating a planet
+              selectedBodyId={selectedBody ? selectedBody.id : undefined}
+              onRegisterMoonMesh={(id, obj) => { moonMeshRefs.current[id] = obj; }}
+              onClick={handlePlanetClick}
+            />
+          </group>
         ))}
 
         {/* Asteroid Belt */}

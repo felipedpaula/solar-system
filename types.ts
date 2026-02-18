@@ -5,12 +5,19 @@ export enum BodyType {
   MOON = 'Lua'
 }
 
+export interface QuickFact {
+  label: string;
+  value: string | string[];
+}
+
 export interface CelestialBodyData {
   id: string;
   name: string;
   type: BodyType;
   description: string;
-  funFact: string;
+  funFact?: string;
+  quickFacts?: QuickFact[];
+  curiosities?: string[];
   radius: number;
   distance: number;
   speed: number;
@@ -19,8 +26,11 @@ export interface CelestialBodyData {
   hasRings?: boolean;
   ringColor?: string;
   ringTextureUrl?: string;
+  ringInnerRadiusMultiplier?: number;
+  ringOuterRadiusMultiplier?: number;
   textureUrl?: string;
   axialTilt?: number;
+  orbitalInclination?: number;
   moons?: MoonData[];
 }
 
@@ -29,7 +39,9 @@ export interface MoonData {
   name: string;
   type: BodyType;
   description: string;
-  funFact: string;
+  funFact?: string;
+  quickFacts?: QuickFact[];
+  curiosities?: string[];
   parentId: string;
   radius: number;
   distance: number;
