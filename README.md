@@ -1,20 +1,73 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# 🌌 Cosmic Explorer: Sistema Solar 3D
+
+Um simulador interativo em 3D do nosso Sistema Solar, permitindo que você explore planetas, luas e muito mais diretamente no seu navegador!
+
+<p align="center">
+  <em>Desenvolvido com o auxílio do <b>Antigravity - Gemini 3.1 High</b> (Spec-driven Development).</em>
+</p>
+
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+## ✨ Astrolábio Digital
 
-View your app in AI Studio: https://ai.studio/apps/drive/1ZEliqfJGu00EuHG4Tk7fvEpWJDLZZ1Cd
+Veja abaixo a beleza do espaço que você pode explorar iterativamente em 3D:
 
-## Run Locally
+<div align="center">
+  <img src="public/hero-view.png" alt="Visão Geral do Sistema Solar" width="800" />
+</div>
+<br/>
+<div align="center">
+  <img src="public/sol-view.png" alt="Visão do Sol" width="400" />
+  <img src="public/terra-view.png" alt="Visão da Terra" width="400" />
+</div>
+<br/>
+<div align="center">
+  <img src="public/lua-view.png" alt="Visão da Lua" width="400" />
+  <img src="public/jupiter-view.png" alt="Visão de Júpiter" width="400" />
+</div>
 
-**Prerequisites:**  Node.js
+---
 
+## 🚀 Funcionalidades Principais
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- **Visualização 3D Imersiva:** Modelos 3D realistas dos corpos celestes renderizados diretamente com WebGL.
+- **Navegação Dinâmica:** Clique em planetas e luas, ou utilize o menu inteligente **"Astros"** para viagens de câmera com zoom suave até a órbita de cada astro.
+- **Conteúdo Educacional Baseado em IA:** Apresenta dados precisos e envolventes sobre os corpos que você visita, potencializado com integrações de dados.
+- **Design Totalmente Responsivo:** Arquitetado desde interfaces Desktop a Mobile, adaptando harmonicamente controles de navegação e componentes em Tela Cheia.
+
+---
+
+## 💻 Tecnologias Utilizadas
+
+Este projeto foi construído utilizando tecnologias modernas para desenvolvimento Frontend, com um forte foco em performance 3D e interfaces modernas:
+
+- **[React 19](https://react.dev/)** - Biblioteca principal para criação da interface e lógica de UI.
+- **[Three.js](https://threejs.org/) & [@react-three/fiber](https://r3f.docs.pmnd.rs/getting-started/introduction)** - Abstração e renderização das malhas 3D espaciais em telas web.
+- **[@react-three/drei](https://github.com/pmndrs/drei)** - Auxiliares vitais para câmeras e controles de WebGL prontos para o uso.
+- **[GSAP](https://gsap.com/)** - Utilizado para animar fluidamente o posicionamento do observador e câmeras tridimensionais.
+- **[Vite](https://vitejs.dev/)** - Responsável pelo bundle ultrarrápido da aplicação.
+- **[Tailwind CSS](https://tailwindcss.com/)** - Estilização prática e responsiva em utilitários de alta performance.
+
+---
+
+## ⚙️ Como rodar localmente
+
+Siga estas etapas para ter o simulador rodando em sua própria máquina:
+
+**Pré-requisitos:** Node.js
+
+1. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+2. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+A aplicação abrirá localmente de imediato. Boa exploração pelo cosmos! 🛸
