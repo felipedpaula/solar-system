@@ -17,18 +17,26 @@ const App: React.FC = () => {
   const [isManualFullscreen, setIsManualFullscreen] = useState(false);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
 
+  const [isInfoOverlayOpen, setIsInfoOverlayOpen] = useState(true);
+
   const handleBodySelect = (body: CelestialInfo) => {
     setSelectedBody(body);
+    setIsInfoOverlayOpen(true);
   };
 
   const handleClearSelect = () => {
     setSelectedBody(null);
   };
 
+  const handleHideInfoOverlay = () => {
+    setIsInfoOverlayOpen(false);
+  };
+
   const handleAstroSelect = (body: CelestialInfo) => {
     setSelectedBody(body);
     setMenuSelection(body);
     setIsAstroMenuOpen(false);
+    setIsInfoOverlayOpen(true);
   };
 
   useEffect(() => {
@@ -198,8 +206,9 @@ const App: React.FC = () => {
       {/* Info Card Overlay */}
       <UIOverlay 
         data={selectedBody} 
-        visible={!!selectedBody} 
+        visible={!!selectedBody && isInfoOverlayOpen} 
         onClose={handleClearSelect} 
+        onHide={handleHideInfoOverlay}
       />
 
       {/* Astros Menu */}

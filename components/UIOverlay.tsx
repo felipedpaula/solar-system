@@ -4,10 +4,11 @@ import { CelestialInfo } from '../types';
 interface UIOverlayProps {
   data: CelestialInfo | null;
   onClose: () => void;
+  onHide: () => void;
   visible: boolean;
 }
 
-const UIOverlay: React.FC<UIOverlayProps> = ({ data, onClose, visible }) => {
+const UIOverlay: React.FC<UIOverlayProps> = ({ data, onClose, onHide, visible }) => {
   if (!data) return null;
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -29,6 +30,14 @@ const UIOverlay: React.FC<UIOverlayProps> = ({ data, onClose, visible }) => {
     <div 
         className={`absolute bottom-0 left-0 w-full h-full md:h-full md:w-96 md:left-auto md:right-0 bg-black/80 backdrop-blur-md text-white p-6 md:p-8 border-l border-white/10 transition-transform duration-500 ease-in-out z-20 flex flex-col transform ${mobileTransform} ${desktopTransform} md:translate-y-0`}
     >
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={onHide}
+          className="text-sm font-semibold text-white/80 hover:text-white transition"
+        >
+          Fechar
+        </button>
+      </div>
       {/* Mobile Handle */}
       <div className="md:hidden relative mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
