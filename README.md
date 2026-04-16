@@ -57,7 +57,7 @@ Este projeto foi construído utilizando tecnologias modernas para desenvolviment
 ---
 
 
-## 🌐 Deploy ao GitHub Pages
+## 🌐 Deploy no GitHub Pages
 
 O projeto está configurado para deploy automático via **GitHub Actions** na branch `master`.
 
