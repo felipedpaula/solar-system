@@ -4,8 +4,10 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
-    const repository = (process.env.GITHUB_REPOSITORY || 'felipedpaula/solar-system').trim();
-    const repositoryName = repository.split('/')[1] || 'solar-system';
+    const repository = (process.env.GITHUB_REPOSITORY ?? '').trim();
+    const repositoryName = /^[^/]+\/[^/]+$/.test(repository)
+      ? repository.split('/')[1]
+      : 'solar-system';
     const productionBase = `/${repositoryName}/`;
 
     return {
