@@ -4,7 +4,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
+    const repository = process.env.GITHUB_REPOSITORY;
+    const repositoryName = repository?.split('/')[1];
+    const productionBase = repositoryName ? `/${repositoryName}/` : '/solar-system/';
+
     return {
+      base: mode === 'production' ? productionBase : '/',
       server: {
         port: 3000,
         host: '0.0.0.0',
