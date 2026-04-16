@@ -38,7 +38,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 0,
     rotationSpeed: 0.002,
     color: '#FDB813',
-    textureUrl: '/textures/texture_sun.jpg',
+    textureUrl: 'textures/texture_sun.jpg',
     axialTilt: 7.25,
   },
   {
@@ -70,7 +70,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 1.6,
     rotationSpeed: 0.000137,
     color: '#A5A5A5',
-    textureUrl: '/textures/texture_mercury.jpg',
+    textureUrl: 'textures/texture_mercury.jpg',
     axialTilt: 0.03,
     orbitalInclination: 7.00,
   },
@@ -102,7 +102,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 1.2,
     rotationSpeed: -0.000033,
     color: '#E3BB76',
-    textureUrl: '/textures/texture_venus.jpg',
+    textureUrl: 'textures/texture_venus.jpg',
     axialTilt: 177.36,
     orbitalInclination: 3.39,
   },
@@ -136,7 +136,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 1,
     rotationSpeed: 0.008,
     color: '#22A6B3',
-    textureUrl: '/textures/texture_earth.jpg',
+    textureUrl: 'textures/texture_earth.jpg',
     axialTilt: 23.44,
     orbitalInclination: 0.00,
     moons: [
@@ -170,7 +170,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.6,
         rotationSpeed: 0.01,
         color: '#cfcfcf',
-        textureUrl: '/textures/texture_moon.jpg',
+        textureUrl: 'textures/texture_moon.jpg',
       }
     ],
   },
@@ -203,7 +203,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 0.8,
     rotationSpeed: 0.0078,
     color: '#EB4D4B',
-    textureUrl: '/textures/texture_mars.jpg',
+    textureUrl: 'textures/texture_mars.jpg',
     axialTilt: 25.19,
     orbitalInclination: 1.85,
   },
@@ -238,7 +238,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 0.4,
     rotationSpeed: 0.0195,
     color: '#F9CA24',
-    textureUrl: '/textures/texture_jupiter.jpg',
+    textureUrl: 'textures/texture_jupiter.jpg',
     axialTilt: 3.13,
     orbitalInclination: 1.31,
     moons: [
@@ -270,7 +270,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 2.2,
         rotationSpeed: 0.02,
         color: '#d8a15d',
-        textureUrl: '/textures/texture_io.jpg'
+        textureUrl: 'textures/texture_io.jpg'
       },
       {
         id: 'europa',
@@ -300,7 +300,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.8,
         rotationSpeed: 0.018,
         color: '#cfcfcf',
-        textureUrl: '/textures/texture_europa.jpg'
+        textureUrl: 'textures/texture_europa.jpg'
       },
       {
         id: 'ganymede',
@@ -330,7 +330,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.4,
         rotationSpeed: 0.015,
         color: '#b8b2a1',
-        textureUrl: '/textures/texture_ganimedes.jpg'
+        textureUrl: 'textures/texture_ganimedes.jpg'
       },
       {
         id: 'callisto',
@@ -360,7 +360,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.1,
         rotationSpeed: 0.012,
         color: '#a88f6f',
-        textureUrl: '/textures/texture_calisto.jpg'
+        textureUrl: 'textures/texture_calisto.jpg'
       }
     ],
   },
@@ -394,8 +394,8 @@ export const PLANET_DATA: CelestialBodyData[] = [
     color: '#F0932B',
     hasRings: true,
     ringColor: '#dcdcdc',
-    ringTextureUrl: '/textures/texture_saturn_rings.png',
-    textureUrl: '/textures/texture_saturn.jpg',
+    ringTextureUrl: 'textures/texture_saturn_rings.png',
+    textureUrl: 'textures/texture_saturn.jpg',
     axialTilt: 26.73,
     orbitalInclination: 2.49,
     moons: [
@@ -428,7 +428,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.2,
         rotationSpeed: 0.012,
         color: '#c9a46b',
-        textureUrl: '/textures/texture_titan.jpg'
+        textureUrl: 'textures/texture_titan.jpg'
       },
       {
         id: 'enceladus',
@@ -458,7 +458,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 2.4,
         rotationSpeed: 0.02,
         color: '#e6e6e6',
-        textureUrl: '/textures/texture_encelado.jpg'
+        textureUrl: 'textures/texture_encelado.jpg'
       }
     ],
   },
@@ -492,10 +492,10 @@ export const PLANET_DATA: CelestialBodyData[] = [
     color: '#7ED6DF',
     hasRings: true,
     ringColor: '#9ab0c7',
-    ringTextureUrl: '/textures/texture_uranus_ring.png',
+    ringTextureUrl: 'textures/texture_uranus_ring.png',
     ringInnerRadiusMultiplier: 1.15,
     ringOuterRadiusMultiplier: 1.55,
-    textureUrl: '/textures/texture_uranus.jpg',
+    textureUrl: 'textures/texture_uranus.jpg',
     axialTilt: 97.77,
     orbitalInclination: 0.77,
   },
@@ -527,7 +527,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
     speed: 0.1,
     rotationSpeed: 0.0119,
     color: '#4834D4',
-    textureUrl: '/textures/texture_neptune.jpg',
+    textureUrl: 'textures/texture_neptune.jpg',
     axialTilt: 28.32,
     orbitalInclination: 1.77,
     moons: [
@@ -559,7 +559,7 @@ export const PLANET_DATA: CelestialBodyData[] = [
         speed: 1.6,
         rotationSpeed: 0.015,
         color: '#cfcfd6',
-        textureUrl: '/textures/texture_triton.jpg'
+        textureUrl: 'textures/texture_triton.jpg'
       }
     ],
   }
