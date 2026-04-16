@@ -2,6 +2,8 @@
 
 # 🌌 Cosmic Explorer: Sistema Solar 3D
 
+Veja o projeto em ação: https://felipedpaula.github.io/solar-system/
+
 Um simulador interativo em 3D do nosso Sistema Solar, permitindo que você explore planetas, luas e muito mais diretamente no seu navegador!
 
 [![Deploy to GitHub Pages](https://github.com/felipedpaula/solar-system/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/felipedpaula/solar-system/actions/workflows/deploy-pages.yml)
