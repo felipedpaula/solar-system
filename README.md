@@ -54,6 +54,19 @@ Este projeto foi construído utilizando tecnologias modernas para desenvolviment
 
 ---
 
+
+## 🌐 Deploy ao GitHub Pages
+
+O projeto está configurado para deploy automático via **GitHub Actions** na branch `master`.
+
+- Workflow: `.github/workflows/deploy-pages.yml`
+- Build de produção: `npm run build` (Vite gera em `dist/`)
+- URL pública: **https://felipedpaula.github.io/solar-system/**
+
+Para publicar manualmente, rode o workflow **Deploy to GitHub Pages** em `Actions` (gatilho `workflow_dispatch`) ou faça push na branch `master`.
+
+---
+
 ## ⚙️ Como rodar localmente
 
 Siga estas etapas para ter o simulador rodando em sua própria máquina:
