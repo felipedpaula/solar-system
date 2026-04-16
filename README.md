@@ -4,6 +4,8 @@
 
 Um simulador interativo em 3D do nosso Sistema Solar, permitindo que você explore planetas, luas e muito mais diretamente no seu navegador!
 
+[![Deploy to GitHub Pages](https://github.com/felipedpaula/solar-system/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/felipedpaula/solar-system/actions/workflows/deploy-pages.yml)
+
 <p align="center">
   <em>Desenvolvido com o auxílio do <b>Antigravity - Gemini 3.1 High</b> (Spec-driven Development).</em>
 </p>
@@ -55,7 +57,7 @@ Este projeto foi construído utilizando tecnologias modernas para desenvolviment
 ---
 
 
-## 🌐 Deploy ao GitHub Pages
+## 🌐 Deploy no GitHub Pages
 
 O projeto está configurado para deploy automático via **GitHub Actions** na branch `master`.
 
